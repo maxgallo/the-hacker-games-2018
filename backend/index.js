@@ -23,14 +23,12 @@ const handlers = require('./lib/handlers')(brain);
 if (require.main === module) {
   const db = connectDb(Object.assign({}, config.db, { mongoose, logger }));
   const io = createServer(config, logger, handlers);
-  setTimeout(() => {
-
-
-  brain.getQuestion({level: 0})
-    .then(res => {
-      console.log('TEST', res);
-    });
-  }, 1500);
+  // setTimeout(() => {
+  //   brain.getQuestion({ level: 0 })
+  //     .then(res => {
+  //       console.log('TEST', res);
+  //     });
+  // }, 1500);
 }
 
 module.exports = createServer;

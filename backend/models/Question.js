@@ -6,6 +6,7 @@ const collectionName = 'Question';
 const schema = new Schema({
   message: String,
   level: Number,
+  answers: [{ type: Schema.Types.ObjectId, ref: 'Answer' }]
 });
 
 const model = mongoose.model(collectionName, schema, collectionName);
