@@ -1,5 +1,6 @@
 const SocketIO = require('socket.io');
 const server = require('http').createServer();
+const handlers = require('./handlers');
 
 /**
  * Fire up a new socket IO server
@@ -16,7 +17,7 @@ const createServer = (opts = {}, logger) => {
   return attachBasicEvents(io, logger);
 };
 
-const attachBasicEvents = (io, logger) => {
+const attachBasicEvents = (io, logger, handlers) => {
   io.on('connection', socket => {
     logger.info('new client connected');
 
