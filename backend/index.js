@@ -23,11 +23,23 @@ const handlers = require('./lib/handlers')(brain);
 if (require.main === module) {
   const db = connectDb(Object.assign({}, config.db, { mongoose, logger }));
   const io = createServer(config, logger, handlers);
-  // setTimeout(() => {
-  //   brain.getQuestion({ level: 0 })
-  //     .then(res => {
-  //       console.log('TEST', res);
-  //     });
+  // setTimeout(async () => {
+
+  //   const questions = await brain.getQuestion({ query: { level: -1 } });
+  //   console.log('......', questions.length);
+
+  //   let i = 0;
+
+  //   const doSetTimeout = (question, i) => {
+  //     setTimeout(() => {
+  //       console.log(question.message);
+  //     }, 1000 * i);
+  //   };
+
+  //   // let i = 0;
+  //   for (question of questions) {
+  //     doSetTimeout(question, i++)
+  //   }
   // }, 1500);
 }
 
