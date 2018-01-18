@@ -24,8 +24,6 @@ class ChatClient {
 
         const question = JSON.parse(questionJson);
 
-        console.log(this.questionCallback);
-
         if (typeof this.questionCallback === 'function') {
             this.questionCallback(question);
         }
