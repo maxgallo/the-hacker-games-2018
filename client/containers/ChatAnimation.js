@@ -4,7 +4,9 @@ import {
     View,
     ScrollView,
     Text,
+    Platform
 } from 'react-native';
+import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
 import styles from '../styles';
 
@@ -12,8 +14,9 @@ import Button from '../components/Button';
 import MessageRight from '../components/MessageRight';
 import MessageLeft from '../components/MessageLeft';
 import randomNumber from '../random/randomNumber';
+import ChatClient from '../services/ChatClient';
 
-import loremipsum from 'lorem-ipsum-react-native';
+// import loremipsum from 'lorem-ipsum-react-native';
 import createAnimationHOC from '../hoc/createAnimationHOC';
 import { addBotMessageAction } from '../actions/actions';
 
@@ -25,18 +28,27 @@ class ChatAnimation extends Component {
         // messages: [],
         // replyOptions: []
     };
-
+    
     constructor(props) {
         super(props);
         this.replyOptionStyle = [
             { bottom: new Animated.Value(-100) },
+            { bottom: new Animated.Value(-100) },
             { bottom: new Animated.Value(-100) }
         ];
         this.scrollY = new Animated.Value(0);
+        this.chatClient = new ChatClient('https://the-hacker-games-backend.now.sh/');
     }
 
     componentDidMount() {
-        this.addLeftMessage();
+        if (Platform.OS === "android" && !Constants.isDevice) {
+            this.setState({
+                errorMessage:
+                    "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
+            });
+        } else {
+            this.getLocationAsync();
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -48,29 +60,39 @@ class ChatAnimation extends Component {
         }
     }
 
-    addLeftMessage(reply) {
-        setTimeout(() => {
-            const replyOptions = [
-                {
-                    id: randomNumber(1, 99999999),
-                    text: loremipsum({ count: 3, units: 'words' })
-                },
-                {
-                    id: randomNumber(1, 99999999),
-                    text: loremipsum({ count: 2, units: 'words' })
-                }
-            ];
+    initChat(latitude, longitude) {
+        this.chatClient.onQuestion(content => { 
+            console.log('CONTENT:', content);
+            this.addLeftMessage(content);
+        });
+        this.chatClient.startChat({ latitude, longitude });
+    }
 
-            const message = {
+    getLocationAsync = async () => {
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== "granted") {
+            this.setState({
+                errorMessage: "Permission to access location was denied"
+            });
+        }
+    
+        let location = await Location.getCurrentPositionAsync({});
+        
+        const { latitude, longitude } = location.coords;
+        this.initChat(latitude, longitude);
+    }
+
+    addLeftMessage({ message, answers, _id }) {
+        setTimeout(() => {
+            const botMessage = {
                 user: 'left',
-                text: loremipsum(),
-                id: randomNumber(1, 99999999)
+                text: message,
+                id: _id,
             };
 
             this.props.addBotMessage(
-                message,
-                replyOptions,
-                reply
+                botMessage,
+                answers,
             );
             this.scrollView.scrollToEnd();
         }, 1000);
@@ -79,9 +101,12 @@ class ChatAnimation extends Component {
     selectReplyOption = replyOption => {
         this.setState({ selectedReply: replyOption });
         this.hideReplyOptions();
+        this.chatClient.selectAnswer(replyOption.id);
     };
 
     showReplyOptions = () => {
+        console.log('SHOW', this.props.replyOptions);
+        console.log('SHOW', this.replyOptionStyle);
         Animated.stagger(
             100,
             this.props.replyOptions.map((replyOption, i) =>
@@ -93,6 +118,7 @@ class ChatAnimation extends Component {
     };
 
     hideReplyOptions = () => {
+        // console.log('HIDE', this.props.replyOptions);
         Animated.stagger(
             100,
             this.props.replyOptions.map((replyOption, i) =>
@@ -127,7 +153,7 @@ class ChatAnimation extends Component {
                 animationId={replyOption.id}
                 animationType="start"
                 onPress={() => this.selectReplyOption(replyOption)}
-                style={[{ marginRight: 10 }, this.replyOptionStyle[i]]}
+                style={[{ marginRight: 10, marginTop: 10 }, this.replyOptionStyle[i]]}
                 text={replyOption.text}
             />
         );
@@ -141,14 +167,14 @@ class ChatAnimation extends Component {
                 animationType="end"
                 text={replyOption.text}
                 style={{ position: 'absolute' }}
-                onAnimationEnd={this.handleReplayOptionAnimationEnd}
+                // onAnimationEnd={this.handleReplayOptionAnimationEnd}
             />
         );
     };
 
-    handleReplayOptionAnimationEnd = () => {
-        this.addLeftMessage(this.state.selectedReply);
-    };
+    // handleReplayOptionAnimationEnd = () => {
+        // this.addLeftMessage(this.state.selectedReply);
+    // };
 
 
     render() {
