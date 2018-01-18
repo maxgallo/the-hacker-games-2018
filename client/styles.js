@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import * as config from './config';
 
 const styles = StyleSheet.create({
     container: {
@@ -8,7 +9,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     messagesContentContainer: {
-        padding: 10
+        padding: 10,
+        paddingTop: 40
     },
     messageLeftContainer: {
         alignItems: 'flex-start',
@@ -24,36 +26,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignSelf: 'flex-start'
     },
-    messageRight: {
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: 'blue',
-        alignSelf: 'flex-end',
-        marginBottom: 10
-    },
     messageLeftText: {
         color: '#000'
     },
-    messageRightText: {
-        color: '#fff',
-        textAlign: 'right'
-    },
     buttons: {
         position: 'absolute',
-        bottom: 0,
+        bottom: 30,
         left: 0,
         right: 0,
         flexDirection: 'row',
         padding: 10
     },
-    button: {
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: 'blue'
-    },
-    buttonText: {
-        color: '#fff'
-    }
 });
 
 export default styles;
