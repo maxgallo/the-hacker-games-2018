@@ -23,7 +23,7 @@ function addBotMessageAction (
         messages: [],
         replyOptions: replyOptions.map(option => ({
             id: option._id,
-            text: option.message,
+            text: option.message.slice(0, 5),
         })),
     };
 

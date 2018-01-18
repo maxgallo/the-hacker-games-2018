@@ -37,7 +37,7 @@ class ChatAnimation extends Component {
             { bottom: new Animated.Value(-100) }
         ];
         this.scrollY = new Animated.Value(0);
-        this.chatClient = new ChatClient('https://the-hacker-games-backend.now.sh/');
+        this.chatClient = new ChatClient('https://53a9a05c.ngrok.io');
     }
 
     componentDidMount() {
@@ -62,7 +62,6 @@ class ChatAnimation extends Component {
 
     initChat(latitude, longitude) {
         this.chatClient.onQuestion(content => { 
-            console.log('CONTENT:', content);
             this.addLeftMessage(content);
         });
         this.chatClient.startChat({ latitude, longitude });
@@ -105,8 +104,6 @@ class ChatAnimation extends Component {
     };
 
     showReplyOptions = () => {
-        console.log('SHOW', this.props.replyOptions);
-        console.log('SHOW', this.replyOptionStyle);
         Animated.stagger(
             100,
             this.props.replyOptions.map((replyOption, i) =>
@@ -118,7 +115,7 @@ class ChatAnimation extends Component {
     };
 
     hideReplyOptions = () => {
-        // console.log('HIDE', this.props.replyOptions);
+        console.log('HIDE', this.props.replyOptions);
         Animated.stagger(
             100,
             this.props.replyOptions.map((replyOption, i) =>
