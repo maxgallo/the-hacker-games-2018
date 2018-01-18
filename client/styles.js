@@ -15,11 +15,12 @@ const styles = StyleSheet.create({
     },
     messageLeftContainer: {
         alignItems: 'flex-start',
-        marginBottom: 10
+        marginBottom: 10,
+        marginRight: 50,
     },
     messageRightContainer: {
         alignItems: 'flex-end',
-        marginBottom: 10
+        marginBottom: 10,
     },
     messageLeft: {
         padding: 14,
