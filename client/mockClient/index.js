@@ -8,7 +8,7 @@ const chatClient = new ChatClient('https://aa329ee8.ngrok.io');
 // Listen for questions from the server
 
 chatClient.addEventListener(Events.QUESTION, ({detail}) => {
-    console.log('received questin:', detail.question);
+    console.log('received question:', detail.question);
 });
 
 // Start the chat (e.g. when user opens app)
