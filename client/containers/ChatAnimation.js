@@ -15,14 +15,15 @@ import randomNumber from '../random/randomNumber';
 
 import loremipsum from 'lorem-ipsum-react-native';
 import createAnimationHOC from '../hoc/createAnimationHOC';
+import { addBotMessageAction } from '../actions/actions';
 
 const AnimatedMessageRight = createAnimationHOC(MessageRight);
 const AnimatedButton = createAnimationHOC(Button);
 
 class ChatAnimation extends Component {
     state = {
-        messages: [],
-        replyOptions: []
+        // messages: [],
+        // replyOptions: []
     };
 
     constructor(props) {
@@ -49,41 +50,29 @@ class ChatAnimation extends Component {
 
     addLeftMessage(reply) {
         setTimeout(() => {
-            let newMessages;
-            if (reply) {
-                newMessages = [
-                    ...this.state.messages,
-                    reply,
-                    {
-                        user: 'left',
-                        text: loremipsum(),
-                        id: randomNumber(1, 99999999)
-                    }
-                ];
-            } else {
-                newMessages = [
-                    ...this.state.messages,
-                    {
-                        user: 'left',
-                        text: loremipsum(),
-                        id: randomNumber(1, 99999999)
-                    }
-                ];
-            }
-            this.setState({
-                messages: newMessages,
-                replyOptions: [
-                    {
-                        id: randomNumber(1, 99999999),
-                        text: loremipsum({ count: 3, units: 'words' })
-                    },
-                    {
-                        id: randomNumber(1, 99999999),
-                        text: loremipsum({ count: 2, units: 'words' })
-                    }
-                ]
-            });
-            //this.scrollView.scrollToEnd();
+            const replyOptions = [
+                {
+                    id: randomNumber(1, 99999999),
+                    text: loremipsum({ count: 3, units: 'words' })
+                },
+                {
+                    id: randomNumber(1, 99999999),
+                    text: loremipsum({ count: 2, units: 'words' })
+                }
+            ];
+
+            const message = {
+                user: 'left',
+                text: loremipsum(),
+                id: randomNumber(1, 99999999)
+            };
+
+            this.props.addBotMessage(
+                message,
+                replyOptions,
+                reply
+            );
+            this.scrollView.scrollToEnd();
         }, 1000);
     }
 
@@ -95,7 +84,7 @@ class ChatAnimation extends Component {
     showReplyOptions = () => {
         Animated.stagger(
             100,
-            this.state.replyOptions.map((replyOption, i) =>
+            this.props.replyOptions.map((replyOption, i) =>
                 Animated.spring(this.replyOptionStyle[i].bottom, {
                     toValue: 0
                 })
@@ -106,7 +95,7 @@ class ChatAnimation extends Component {
     hideReplyOptions = () => {
         Animated.stagger(
             100,
-            this.state.replyOptions.map((replyOption, i) =>
+            this.props.replyOptions.map((replyOption, i) =>
                 Animated.spring(this.replyOptionStyle[i].bottom, {
                     toValue: -100
                 })
@@ -174,16 +163,16 @@ class ChatAnimation extends Component {
                         this.scrollView.scrollToEnd({ animated: true });
                     }}
                 >
-                    {this.state.messages.map(this.renderMessage)}
+                    {this.props.messages.map(this.renderMessage)}
                     <View style={{ height: 40 }}>
-                        {this.state.replyOptions.map(
+                        {this.props.replyOptions.map(
                             this.renderReplyOptionAsRightMessage
                         )}
                     </View>
                     <View style={{ height: 100 }} />
                 </ScrollView>
                 <View style={styles.buttons}>
-                    {this.state.replyOptions.map(this.renderReplyOption)}
+                    {this.props.replyOptions.map(this.renderReplyOption)}
                 </View>
                 {this.state.selectedReply && (
                     <AnimatedMessageRight
@@ -206,10 +195,18 @@ const updateScrollAction = height => ({
     height
 });
 
-const mapStateToProps = (state, props) => state.animation[props.animationId] || {};
+// const mapStateToProps = (state, props) =>
+// state.animation[props.animationId] || {};
+
+const mapStateToProps = (state, props) => ({
+    messages: state.messages.messages,
+    replyOptions: state.messages.replyOptions,
+});
+
 const mapDispatchToProps = {
     animate: animateAction,
-    updateScrollData: updateScrollAction
+    updateScrollData: updateScrollAction,
+    addBotMessage : addBotMessageAction
 };
 
 const ChatAnimationRedux = connect(mapStateToProps, mapDispatchToProps)(ChatAnimation);
