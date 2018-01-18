@@ -19,6 +19,10 @@ class ChatClient {
     }
 
     sendEvent(eventType, eventData = '') {
+        if (typeof eventData !== 'string') {
+            eventData = JSON.stringify(eventData);
+        }
+
         return new Promise(resolve => this.socket.emit(eventType, eventData, resolve));
     }
 
@@ -56,20 +60,16 @@ class ChatClient {
         this.messageCallback = callback;
     }
 
-    async startChat() {
+    async startChat(whoami) {
         console.log('[ChatClient] Starting chat...');
 
-        await this.sendEvent(Events.START_CHAT);
+        await this.sendEvent(Events.START_CHAT, whoami);
     }
 
     async endChat() {
         console.log('[ChatClient] Ending chat...');
 
         await this.sendEvent(Events.END_CHAT);
-    }
-
-    async sendLocation(location) {
-        await this.sendEvent(Events.LOCATION, location);
     }
 
     async selectAnswer(answerId) {
