@@ -24,8 +24,10 @@ class ChatClient {
 
         const question = JSON.parse(questionJson);
 
+        console.log(this.questionCallback);
+
         if (typeof this.questionCallback === 'function') {
-            this.onQuestion(question);
+            this.questionCallback(question);
         }
     }
 
@@ -54,6 +56,8 @@ class ChatClient {
     }
 
     async selectAnswer(answerId) {
+        console.log(`[ChatClient] Selected answer ${answerId}`);
+
         await this.sendEvent(Events.ANSWER, answerId);
     }
 }
