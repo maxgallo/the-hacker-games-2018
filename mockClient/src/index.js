@@ -11,9 +11,7 @@ answersArea.addEventListener('click', handleAnswerClick);
 const chatClient = new ChatClient('https://fbef2b12.ngrok.io');
 
 function renderAnswerButtons(answers = []) {
-    console.log(answers);
-
-    return answers.reduce((html, answer) => html + `<button data-id="${answer.id}">${answer.text}</button>`, '');
+    answersArea.innerHTML = answers.reduce((html, answer) => html + `<button data-id="${answer.id}">${answer.text}</button>`, '');
 }
 
 function handleAnswerClick({target}) {
