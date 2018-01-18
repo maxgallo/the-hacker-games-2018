@@ -199,6 +199,7 @@ const updateScrollAction = height => ({
 // state.animation[props.animationId] || {};
 
 const mapStateToProps = (state, props) => ({
+    ...(state.animation[props.animationId] || {}),
     messages: state.messages.messages,
     replyOptions: state.messages.replyOptions,
 });
@@ -212,4 +213,3 @@ const mapDispatchToProps = {
 const ChatAnimationRedux = connect(mapStateToProps, mapDispatchToProps)(ChatAnimation);
 
 export default ChatAnimationRedux;
-
