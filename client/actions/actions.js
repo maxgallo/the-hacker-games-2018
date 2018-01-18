@@ -16,18 +16,17 @@ const updateAction = (
 
 function addBotMessageAction (
     message,
-    replyOptions,
-    reply
+    replyOptions
 ) {
     const whatToReturn = {
         type: 'addBotMessageAction',
         messages: [],
-        replyOptions,
+        replyOptions: replyOptions.map(option => ({
+            id: option._id,
+            text: option.message.slice(0, 5),
+        })),
     };
 
-    if (reply) {
-        whatToReturn.messages.push(reply);
-    }
     whatToReturn.messages.push(message);
 
     return whatToReturn;

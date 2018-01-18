@@ -39,8 +39,9 @@ const styles = StyleSheet.create({
         right: 0,
         padding: 10,
         flexDirection:'row',
+        flexWrap: 'wrap',
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'space-around',
     },
 });
 
