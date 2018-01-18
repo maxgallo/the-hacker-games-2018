@@ -4,7 +4,7 @@ import {
     Animated,
     TouchableOpacity,
 } from 'react-native';
-import styles from '../styles';
+import * as config from '../config';
 
 class Button extends Component {
     render() {
@@ -13,10 +13,10 @@ class Button extends Component {
             <Animated.View
                 ref={c => (this.component = c)}
                 {...props}
-                style={[styles.button, props.style]}
+                style={[config.buttonCss, props.style]}
             >
                 <TouchableOpacity onPress={props.onPress}>
-                    <Text style={styles.buttonText}>{props.text}</Text>
+                    <Text style={config.buttonCssText}>{props.text}</Text>
                 </TouchableOpacity>
             </Animated.View>
         );
