@@ -31,9 +31,9 @@ class ChatClient {
     }
 
     handleQuestion(questionJson) {
-        console.log('[ChatClient] Question received');
-
         const question = JSON.parse(questionJson);
+
+        console.log('[ChatClient] Question received', question);
 
         if (typeof this.questionCallback === 'function') {
             this.questionCallback(question);
