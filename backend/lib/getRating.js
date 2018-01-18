@@ -1,17 +1,6 @@
-module.exports = ({models, logger}) =>
-    async userId => {
-        logger.info('getRating', userId);
-        
-        const user = await models.User
-            .findById(userId)
-            .populate({ 
-                path: 'answers',
-                populate: {
-                  path: 'condition',
-                  model: 'Condition'
-                } 
-             })
-            .exec();
+module.exports = ({logger}) =>
+    user => {
+        logger.info('getRating', user);
 
         const conditionRating = user.answers.reduce((acc, {
             condition,
