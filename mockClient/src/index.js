@@ -1,5 +1,5 @@
-import ChatClient from '../services/ChatClient';
-import * as Events from '../constants/Events';
+import ChatClient from './services/ChatClient';
+import * as Events from './constants/Events';
 
 // Create new chat client with socket URL
 
