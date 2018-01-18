@@ -3,8 +3,10 @@ import * as Events from '../constants/Events';
 
 class ChatClient {
     constructor(url) {
-        this.questionCallback = null;
         this.socket = io(url);
+
+        this.questionCallback = null;
+        this.messageCallback = null;
 
         this.init();
     }
@@ -12,6 +14,7 @@ class ChatClient {
     init() {
         this.socket.on(Events.CONNECT, this.handleConnect.bind(this));
         this.socket.on(Events.QUESTION, this.handleQuestion.bind(this));
+        this.socket.on(Events.MESSAGE, this.handleMessage.bind(this));
         this.socket.on(Events.DISCONNECT, this.handleDisconnect.bind(this));
     }
 
@@ -29,6 +32,14 @@ class ChatClient {
         }
     }
 
+    handleMessage(message) {
+        console.log('[ChatClient] Message received');
+
+        if (typeof this.messageCallback === 'function') {
+            this.messageCallback(message);
+        }
+    }
+
     handleConnect() {
         console.log('[ChatClient] Connected to server')
     }
@@ -41,6 +52,10 @@ class ChatClient {
         this.questionCallback = callback;
     }
 
+    onMessage(callback) {
+        this.messageCallback = callback;
+    }
+
     async startChat() {
         console.log('[ChatClient] Starting chat...');
 
@@ -51,6 +66,10 @@ class ChatClient {
         console.log('[ChatClient] Ending chat...');
 
         await this.sendEvent(Events.END_CHAT);
+    }
+
+    async sendLocation(location) {
+        await this.sendEvent(Events.LOCATION, location);
     }
 
     async selectAnswer(answerId) {

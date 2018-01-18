@@ -30,6 +30,12 @@ chatClient.onQuestion(question => {
     renderAnswerButtons(question.answers);
 });
 
+chatClient.onMessage(message => {
+    questionArea.value = message;
+
+    renderAnswerButtons();
+});
+
 // Start the chat (e.g. when user opens app)
 
 chatClient.startChat();
