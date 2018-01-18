@@ -3,7 +3,19 @@ import {
     Text,
     Animated,
 } from 'react-native';
-import styles from '../styles';
+import * as config from '../config';
+
+const styles = {
+    messageRight: {
+        ...config.buttonCss,
+        alignSelf: 'flex-end',
+        marginBottom: 10,
+    },
+    messageRightText: {
+        ...config.buttonCssText,
+        textAlign: 'right',
+    },
+};
 
 class MessageRight extends Component {
     render() {
