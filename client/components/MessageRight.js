@@ -20,11 +20,15 @@ const styles = {
 class MessageRight extends Component {
     render() {
         const props = this.props;
+        const viewStyle = [
+            styles.messageRight,
+            props.style,
+        ];
         return (
             <Animated.View
                 ref={c => (this.component = c)}
                 {...props}
-                style={[styles.messageRight, props.style]}
+                style={viewStyle}
             >
                 <Text style={styles.messageRightText}>{props.text}</Text>
             </Animated.View>

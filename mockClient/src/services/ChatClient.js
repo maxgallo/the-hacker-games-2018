@@ -23,13 +23,17 @@ class ChatClient {
             eventData = JSON.stringify(eventData);
         }
 
-        return new Promise(resolve => this.socket.emit(eventType, eventData, resolve));
+        return new Promise(resolve => this.socket.emit(eventType, eventData, err => {
+            if (err) reject(err);
+
+            resolve();
+        }));
     }
 
     handleQuestion(questionJson) {
-        console.log('[ChatClient] Question received');
-
         const question = JSON.parse(questionJson);
+
+        console.log('[ChatClient] Question received', question);
 
         if (typeof this.questionCallback === 'function') {
             this.questionCallback(question);
