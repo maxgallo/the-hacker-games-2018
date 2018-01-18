@@ -23,7 +23,11 @@ class ChatClient {
             eventData = JSON.stringify(eventData);
         }
 
-        return new Promise(resolve => this.socket.emit(eventType, eventData, resolve));
+        return new Promise(resolve => this.socket.emit(eventType, eventData, err => {
+            if (err) reject(err);
+
+            resolve();
+        }));
     }
 
     handleQuestion(questionJson) {
