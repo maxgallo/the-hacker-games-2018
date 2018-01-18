@@ -4,9 +4,10 @@ const HEADER_OFFSET = 64;
 const { height: WINDOW_HEIGHT } = Dimensions.get('window');
 
 const buttonCss = {
-    padding: 10,
+    padding: 14,
     borderRadius: 20,
-    backgroundColor: 'purple'
+    backgroundColor: 'purple',
+    borderBottomRightRadius: 2,
 };
 const buttonCssText = {
     color: '#fff',

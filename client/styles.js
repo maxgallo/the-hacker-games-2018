@@ -3,7 +3,8 @@ import * as config from './config';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#f4f4f4',
     },
     messages: {
         flex: 1
@@ -21,8 +22,9 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     messageLeft: {
-        padding: 10,
-        borderRadius: 10,
+        padding: 14,
+        borderRadius: 20,
+        borderBottomLeftRadius: 2,
         backgroundColor: '#fff',
         alignSelf: 'flex-start'
     },
@@ -34,8 +36,10 @@ const styles = StyleSheet.create({
         bottom: 30,
         left: 0,
         right: 0,
-        flexDirection: 'row',
-        padding: 10
+        padding: 10,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center'
     },
 });
 
