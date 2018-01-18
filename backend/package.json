@@ -12,6 +12,7 @@
     "bunyan": "^1.8.12",
     "http": "0.0.0",
     "mongoose": "^5.0.0",
+    "require-all": "^2.2.0",
     "socket.io": "^2.0.4"
   }
 }
