@@ -1,20 +1,9 @@
 import io from 'socket.io-client';
 import * as Events from '../constants/Events';
 
-class Emitter {
-    constructor() {
-        const delegate = document.createDocumentFragment();
-
-        this.addEventListener = delegate.addEventListener.bind(delegate);
-        this.dispatchEvent = delegate.dispatchEvent.bind(delegate);
-        this.removeEventListener = delegate.dispatchEvent.bind(delegate);
-    }
-  }
-
-class ChatClient extends Emitter {
+class ChatClient {
     constructor(url) {
-        super();
-
+        this.questionCallback = null;
         this.socket = io(url);
 
         this.init();
@@ -34,11 +23,10 @@ class ChatClient extends Emitter {
         console.log('[ChatClient] Question received');
 
         const question = JSON.parse(questionJson);
-        const event = new CustomEvent(Events.QUESTION, {
-            detail: question
-        })
 
-        this.dispatchEvent(event);
+        if (typeof this.questionCallback === 'function') {
+            this.onQuestion(question);
+        }
     }
 
     handleConnect() {
@@ -47,6 +35,10 @@ class ChatClient extends Emitter {
 
     handleDisconnect() {
         console.log('[ChatClient] Server disconnected');
+    }
+
+    onQuestion(callback) {
+        this.questionCallback = callback;
     }
 
     async startChat() {
