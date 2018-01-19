@@ -4,22 +4,29 @@ import { Provider } from 'react-redux';
 
 import { createStore, combineReducers } from 'redux';
 
-import ChatAnimation from './containers/ChatAnimation';
+import { AppRegistry } from 'react-native';
 import reducers from './reducers/reducers';
+import { addNavigationHelpers } from 'react-navigation';
+import { connect }  from 'react-redux';
 
-const reducer = combineReducers(reducers);
-const store = createStore(reducer);
+import { StackNavigator } from 'react-navigation';
 
+import AppWithNavigationState from './AppNavigator';
 
-export default class App extends Component {
-    // static navigationOptions = {
-    //     header: null
-    // };
+const combinedReducers = combineReducers(reducers);
+
+class App extends React.Component {
+    store = createStore(combinedReducers);
+
     render() {
         return (
-            <Provider store={store}>
-                <ChatAnimation />
+            <Provider store={this.store}>
+                <AppWithNavigationState />
             </Provider>
         );
     }
 }
+
+//AppRegistry.registerComponent('App', () => App);
+
+export default App;
