@@ -40,4 +40,16 @@ NodeJS using Socket.io and MongoDB to handle the profiling and the decision tree
 Run Instruction
 ```
 cd backend
+npm install
+npm start
 ```
+
+## Deploy
+We are using [now.sh](https://now.sh) to deploy our backend.
+
+Deploy Instruction
+```
+cd backend
+now
+```
+
