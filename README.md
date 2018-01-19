@@ -12,7 +12,7 @@ This is why we targeted the **partners** of veterans.
 ### Phase 1 - The Bot
 The partners can use our application, where a BOT chat with a static decision tree provides generic help with suggestions and link.
 
-Through the friendly chat comunication we're profiling the user for the next phase.
+Through a friendly chat comunication we're profiling the user for the next phase.
 
 ### Phase 2 - The Chat with Real Person
 
@@ -27,5 +27,17 @@ At this point they are chatting with a person with similar experience in the pas
 ## Client
 React Native application with Custom Bot implementation and Custom Chat implementation (we used Pusher ChatKit)
 
+Run Instructions (you need the Expo app or Simulator)
+```
+cd client
+yarn
+yarn start
+```
+
 ## Backend
 NodeJS using Socket.io and MongoDB to handle the profiling and the decision tree for the Bot Messaging.
+
+Run Instruction
+```
+cd backend
+```
