@@ -7,8 +7,11 @@ import {
     Linking,
 } from 'react-native';
 import styles from '../styles';
+import { NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
+
 const localStyle = {
-    arrow: {
+    icon: {
         fontSize: 30,
         marginLeft: 10,
         marginTop: 10,
@@ -42,7 +45,12 @@ class MessageLeft extends Component {
     }
 
     _onPressButton = () => {
-        console.log('onclick');
+        console.log('onclick', this.isChat);
+        if (this.props.chat) {
+            console.log('open chat', this.props);
+            this.props.goToChat();
+            return;
+        }
         if (this.props.link) {
             Linking.canOpenURL(this.props.link).then(supported => {
                 if (supported) {
@@ -56,15 +64,23 @@ class MessageLeft extends Component {
 
     render() {
         const props = this.props;
-        let arrow = null;
+        let icon = null;
 
         const messageLeftContainerStyle = [
             styles.messageLeftContainer,
             this.style,
         ];
 
-        if (props.link) {
-            arrow = <Text style={localStyle.arrow}>📖</Text>;
+        console.log(this.props.chat);
+        console.log(this.props);
+
+        if (this.props.chat) {
+            icon = <Text style={localStyle.icon}>💬</Text>;
+            messageLeftContainerStyle.push(
+                localStyle.messageLeftContainer,
+            );
+        } else if (this.props.link) {
+            icon = <Text style={localStyle.icon}>📖</Text>;
             messageLeftContainerStyle.push(
                 localStyle.messageLeftContainer,
             );
@@ -84,10 +100,19 @@ class MessageLeft extends Component {
                         <Text style={styles.messageLeftText}>{props.text}</Text>
                     </View>
                 </TouchableHighlight>
-                { arrow }
+                { icon }
             </Animated.View>
         );
     }
 }
 
-export default MessageLeft;
+
+const mapStateToProps = (state, props) => ({});
+
+const mapDispatchToProps = dispatch => ({
+    goToChat: () => dispatch(NavigationActions.navigate({ routeName: 'PersonChat' })),
+});
+
+const MessageLeftRedux = connect(mapStateToProps, mapDispatchToProps)(MessageLeft);
+
+export default MessageLeftRedux;

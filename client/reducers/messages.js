@@ -10,7 +10,7 @@ const messagesReducer = (
 ) => {
     switch(action.type) {
         case 'addBotMessageAction': {
-            // console.log('add bot message action', state.messages);
+            // console.log('add bot message action', action.messages);
             // console.log('--------', action.messages);
             return {
                 ...state,

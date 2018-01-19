@@ -7,14 +7,20 @@ class ChatClient {
 
         this.questionCallback = null;
         this.messageCallback = null;
+        this.connectCallback = null;
+        this.typingCallback = null;
+        this.disconnectCallback = null;
 
         this.init();
+
+        console.log(`[ChatClient] ChatClient created and listening on "${url}"`);
     }
 
     init() {
         this.socket.on(Events.CONNECT, this.handleConnect.bind(this));
         this.socket.on(Events.QUESTION, this.handleQuestion.bind(this));
         this.socket.on(Events.MESSAGE, this.handleMessage.bind(this));
+        this.socket.on(Events.TYPING, this.handleTyping.bind(this));
         this.socket.on(Events.DISCONNECT, this.handleDisconnect.bind(this));
     }
 
@@ -23,7 +29,7 @@ class ChatClient {
             eventData = JSON.stringify(eventData);
         }
 
-        return new Promise((resolve, reject) => this.socket.emit(eventType, eventData, err => {
+        return new Promise(resolve => this.socket.emit(eventType, eventData, err => {
             if (err) reject(err);
 
             resolve();
@@ -31,9 +37,9 @@ class ChatClient {
     }
 
     handleQuestion(questionJson) {
-        console.log('[ChatClient] Question received');
-
         const question = JSON.parse(questionJson);
+
+        console.log('[ChatClient] Question received', question);
 
         if (typeof this.questionCallback === 'function') {
             this.questionCallback(question);
@@ -48,12 +54,28 @@ class ChatClient {
         }
     }
 
+    handleTyping() {
+        console.log('[ChatClient] Bot is typing...');
+
+        if (typeof this.typingCallback === 'function') {
+            this.typingCallback();
+        }
+    }
+
     handleConnect() {
         console.log('[ChatClient] Connected to server')
+
+        if (typeof this.connectCallback === 'function') {
+            this.connectCallback();
+        }
     }
 
     handleDisconnect() {
         console.log('[ChatClient] Server disconnected');
+
+        if (typeof this.disconnectCallback === 'function') {
+            this.disconnectCallback();
+        }
     }
 
     onQuestion(callback) {
@@ -62,6 +84,18 @@ class ChatClient {
 
     onMessage(callback) {
         this.messageCallback = callback;
+    }
+
+    onConnect(callback) {
+        this.connectCallback = callback;
+    }
+
+    onTyping(callback) {
+        this.typingCallback = callback;
+    }
+
+    onDisconnect(callback) {
+        this.disconnectCallback = callback;
     }
 
     async startChat(whoami) {

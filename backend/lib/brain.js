@@ -19,7 +19,7 @@ const getQuestion = ({ models, logger }) => params => {
 
       params.queue.push(question);
 
-      if (question.nextQuestion.length > 0) {
+      if (question.nextQuestion && question.nextQuestion.length > 0) {
         console.log('recursion', index);
         await getQuestion({ models, logger })(Object.assign({}, params, { query: { _id: question.nextQuestion } }));
       }
@@ -35,6 +35,21 @@ const getQuestion = ({ models, logger }) => params => {
   });
 };
 
+const getAnswerById = ({ models, logger }) => params => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const answer = await models.Answer
+        .findById(params.query.id)
+        .exec();
+      resolve(answer);
+    } catch (error) {
+      logger.error('Error in brain.getAnswerById', error);
+      reject(error);
+    }
+  });
+};
+
 module.exports = ({ models, logger }) => ({
-  getQuestion: getQuestion({ models, logger })
+  getQuestion: getQuestion({ models, logger }),
+  getAnswerById: getAnswerById({ models, logger })
 });

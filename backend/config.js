@@ -1,8 +1,9 @@
 const chatEvents = {
   START_CHAT: 'START_CHAT',
   END_CHAT: 'END_CHAT',
-  QUESTIONS: 'QUESTIONS',
-  ANSWERS: 'ANSWERS'
+  QUESTION: 'QUESTION',
+  ANSWER: 'ANSWER',
+  TYPING: 'TYPING'
 };
 
 module.exports = {
