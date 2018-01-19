@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import * as Events from '../../../shared/constants/Events';
+import * as Events from '../../shared/constants/Events';
 
 class ChatClient {
     constructor(url) {
