@@ -25,7 +25,7 @@ if (require.main === module) {
   const io = createServer(config, logger, handlers);
   // setTimeout(async () => {
 
-  //   const questions = await brain.getQuestion({ query: { level: -1 } });
+    // const questions = await brain.getQuestion({ query: { level: -1 } });
   //   console.log('......', questions.length);
 
   //   let i = 0;
