@@ -20,12 +20,13 @@
   },
   "dependencies": {
     "expo": "^23.0.4",
+    "http-server": "^0.11.1",
     "lorem-ipsum-react-native": "^1.0.3",
     "react": "16.0.0",
     "react-native": "0.50.3",
+    "react-navigation": "^1.0.0-beta.27",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "http-server": "^0.11.1",
     "socket.io-client": "^2.0.4",
     "webpack": "^3.10.0"
   }

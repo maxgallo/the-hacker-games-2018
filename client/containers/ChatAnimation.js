@@ -24,6 +24,10 @@ const AnimatedMessageRight = createAnimationHOC(MessageRight);
 const AnimatedButton = createAnimationHOC(Button);
 
 class ChatAnimation extends Component {
+    static navigationOptions = {
+        title: 'Home',
+    }
+
     state = {};
 
     constructor(props) {
@@ -78,13 +82,15 @@ class ChatAnimation extends Component {
         this.initChat(latitude, longitude);
     }
 
-    addLeftMessage({ message, answers, _id }) {
+    addLeftMessage({ message, answers, _id, chat, link }) {
         console.log('add left message');
         setTimeout(() => {
             const botMessage = {
                 user: 'left',
                 text: message,
                 id: _id,
+                link: link,
+                chat: chat,
             };
 
             this.props.addBotMessage(
@@ -134,6 +140,8 @@ class ChatAnimation extends Component {
                 <MessageLeft
                     key={message.id}
                     text={message.text}
+                    chat={message.chat}
+                    link={message.link}
                     onAnimationEnd={this.handleMessageLeftAnimationEnd}
                 />
             );
@@ -183,6 +191,7 @@ class ChatAnimation extends Component {
         this.addLeftMessage({
             _id: randomNumber(0, 0.999999),
             message: 'what time is it?',
+            chat: 12345,
             answers: [
                 {
                     message: 'yeah',
