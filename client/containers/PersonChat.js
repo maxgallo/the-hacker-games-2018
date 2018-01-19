@@ -5,24 +5,51 @@ import {
 } from 'react-native';
 import styles from '../styles';
 
-class PersonChat extends Component {
+import { GiftedChat } from 'react-native-gifted-chat'
+
+class PersonChat extends React.Component {
     static navigationOptions = {
         title: 'Julie',
     }
 
-    constructor(props) {
-        super(props);
+    state = {
+        messages: [],
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        this.setState({
+            messages: [
+                {
+                    _id: 1,
+                    text: 'Hello developer',
+                    createdAt: new Date(),
+                    user: {
+                        _id: 2,
+                        name: 'React Native',
+                        // avatar: 'https://facebook.github.io/react/img/logo_og.png',
+                        avatar: 'http://images.mentalfloss.com/sites/default/files/jon_snow_hed.jpg?resize=1100x740',
+                    },
+                },
+            ],
+        })
+    }
+
+    onSend(messages = []) {
+        this.setState(previousState => ({
+            messages: GiftedChat.append(previousState.messages, messages),
+        }))
     }
 
     render() {
         return (
-            <View>
-                <Text> Hello </Text>
-            </View>
-        );
+            <GiftedChat
+                messages={this.state.messages}
+                onSend={messages => this.onSend(messages)}
+                user={{
+                    _id: 1,
+                }}
+            />
+        )
     }
 }
 

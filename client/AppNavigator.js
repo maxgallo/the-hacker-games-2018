@@ -15,7 +15,8 @@ export const AppNavigator = StackNavigator(
         PersonChat: { screen: PersonChat },
     },
     {
-        initialRouteName: 'BotChat'
+        // initialRouteName: 'BotChat'
+        initialRouteName: 'PersonChat'
     }
 );
 
