@@ -1,4 +1,4 @@
-const START_CHAT = 'START_EVENT';
+const START_CHAT = 'START_CHAT';
 const END_CHAT = 'END_CHAT';
 const QUESTION = 'QUESTION';
 const ANSWER = 'ANSWER';
