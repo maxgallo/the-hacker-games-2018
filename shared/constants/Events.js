@@ -1,0 +1,20 @@
+const START_CHAT = 'START_EVENT';
+const END_CHAT = 'END_CHAT';
+const QUESTION = 'QUESTION';
+const ANSWER = 'ANSWER';
+const MESSAGE = 'MESSAGE';
+
+const CONNECT = 'connect';
+const CONNECTION = 'connection';
+const DISCONNECT = 'disconnect';
+
+module.exports = {
+    START_CHAT: START_CHAT,
+    END_CHAT: END_CHAT,
+    QUESTION: QUESTION,
+    ANSWER: ANSWER,
+    MESSAGE: MESSAGE,
+    CONNECT: CONNECT,
+    CONNECTION: CONNECTION,
+    DISCONNECT: DISCONNECT
+};

@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import * as Events from '../constants/Events';
+import * as Events from '../../../shared/constants/Events';
 
 class ChatClient {
     constructor(url) {
@@ -9,6 +9,8 @@ class ChatClient {
         this.messageCallback = null;
 
         this.init();
+
+        console.log(`[ChatClient] ChatClient created and listening on "${url}"`);
     }
 
     init() {

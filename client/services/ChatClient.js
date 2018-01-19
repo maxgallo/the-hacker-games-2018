@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import * as Events from '../constants/Events';
+import * as Events from '../../../shared/constants/Events';
 
 class ChatClient {
     constructor(url) {
@@ -9,6 +9,8 @@ class ChatClient {
         this.messageCallback = null;
 
         this.init();
+
+        console.log(`[ChatClient] ChatClient created and listening on "${url}"`);
     }
 
     init() {
@@ -23,7 +25,7 @@ class ChatClient {
             eventData = JSON.stringify(eventData);
         }
 
-        return new Promise((resolve, reject) => this.socket.emit(eventType, eventData, err => {
+        return new Promise(resolve => this.socket.emit(eventType, eventData, err => {
             if (err) reject(err);
 
             resolve();
@@ -31,9 +33,9 @@ class ChatClient {
     }
 
     handleQuestion(questionJson) {
-        console.log('[ChatClient] Question received');
-
         const question = JSON.parse(questionJson);
+
+        console.log('[ChatClient] Question received', question);
 
         if (typeof this.questionCallback === 'function') {
             this.questionCallback(question);
