@@ -37,7 +37,7 @@ yarn start
 ## Backend
 NodeJS using Socket.io and MongoDB to handle the profiling and the decision tree for the Bot Messaging.
 
-Run Instruction
+Run Instruction (you need `node` installed)
 ```
 cd backend
 npm install
