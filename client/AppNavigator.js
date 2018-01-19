@@ -8,15 +8,12 @@ import PersonChat from './containers/PersonChat';
 
 export const AppNavigator = StackNavigator(
     {
-        // Login: { screen: LoginScreen },
-        // Main: { screen: MainScreen },
-        // Profile: { screen: ProfileScreen },
         BotChat: { screen: ChatAnimation },
         PersonChat: { screen: PersonChat },
     },
     {
-        // initialRouteName: 'BotChat'
-        initialRouteName: 'PersonChat'
+        initialRouteName: 'BotChat'
+        // initialRouteName: 'PersonChat'
     }
 );
 

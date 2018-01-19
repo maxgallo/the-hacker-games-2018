@@ -188,6 +188,8 @@ class ChatAnimation extends Component {
     };
 
     addMockLeftMessage = () => {
+        return;
+        /*
         this.addLeftMessage({
             _id: randomNumber(0, 0.999999),
             message: 'what time is it?',
@@ -207,6 +209,7 @@ class ChatAnimation extends Component {
                 },
             ],
         });
+        */
     }
 
     handleReplayOptionAnimationEnd = () => {};
