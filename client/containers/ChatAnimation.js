@@ -107,7 +107,6 @@ class ChatAnimation extends Component {
         this.chatClient.selectAnswer(replyOption.id);
         setTimeout(() => {
             this.props.addReplyMessage(replyOption);
-            this.addMockLeftMessage();
         }, 500);
     };
 
