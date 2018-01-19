@@ -24,7 +24,7 @@ At this point they are chatting with a person with similar experience in the pas
 
 ## Tech
 
-## Client
+### Client
 React Native application with Custom Bot implementation and Custom Chat implementation (we used Pusher ChatKit)
 
 Run Instructions (you need the Expo app or Simulator)
@@ -34,7 +34,7 @@ yarn
 yarn start
 ```
 
-## Backend
+### Backend
 NodeJS using Socket.io and MongoDB to handle the profiling and the decision tree for the Bot Messaging.
 
 Run Instruction (you need `node` installed)
