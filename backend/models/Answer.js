@@ -6,6 +6,7 @@ const collectionName = 'Answer';
 const schema = new Schema({
   message: String,
   weight: Number,
+  nextQuestion: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
   condition: { type: Schema.Types.ObjectId, ref: 'Condition' },
 });
 
