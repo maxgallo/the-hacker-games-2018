@@ -1,3 +1,4 @@
+import PusherChatKit from './services/PusherChatKit';
 import ChatClient from './services/ChatClient';
 import * as Events from './constants/Events';
 

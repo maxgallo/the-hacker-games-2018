@@ -1,14 +1,21 @@
 const defaultState = {
+    typing: false,
     messages: [],
     replyOptions: []
 };
-
 
 const messagesReducer = (
     state = defaultState,
     action
 ) => {
     switch(action.type) {
+        case 'typingAction': {
+            return {
+                ...state,
+                typing: true,
+                replyOptions: [],
+            };
+        }
         case 'addBotMessageAction': {
             // console.log('add bot message action', action.messages);
             // console.log('--------', action.messages);
@@ -18,6 +25,7 @@ const messagesReducer = (
                     ...state.messages,
                     ...action.messages
                 ],
+                typing: false,
                 replyOptions: action.replyOptions,
             };
         }

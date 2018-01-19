@@ -71,9 +71,6 @@ class MessageLeft extends Component {
             this.style,
         ];
 
-        console.log(this.props.chat);
-        console.log(this.props);
-
         if (this.props.chat) {
             icon = <Text style={localStyle.icon}>💬</Text>;
             messageLeftContainerStyle.push(
