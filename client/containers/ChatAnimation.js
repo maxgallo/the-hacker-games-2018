@@ -107,7 +107,6 @@ class ChatAnimation extends Component {
         this.chatClient.selectAnswer(replyOption.id);
         setTimeout(() => {
             this.props.addReplyMessage(replyOption);
-            this.addMockLeftMessage();
         }, 500);
     };
 
@@ -188,6 +187,8 @@ class ChatAnimation extends Component {
     };
 
     addMockLeftMessage = () => {
+        return;
+        /*
         this.addLeftMessage({
             _id: randomNumber(0, 0.999999),
             message: 'what time is it?',
@@ -207,6 +208,7 @@ class ChatAnimation extends Component {
                 },
             ],
         });
+        */
     }
 
     handleReplayOptionAnimationEnd = () => {};
