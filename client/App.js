@@ -1,4 +1,3 @@
-// Reference: https://itunes.apple.com/us/app/quartz/id1076683233?mt=8
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 

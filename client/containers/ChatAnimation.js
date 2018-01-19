@@ -6,6 +6,7 @@ import {
     Text,
     Platform
 } from 'react-native';
+import _ from 'lodash';
 import { Constants, Location, Permissions } from 'expo';
 import { connect } from 'react-redux';
 import styles from '../styles';
@@ -62,9 +63,23 @@ class ChatAnimation extends Component {
     }
 
     initChat(latitude, longitude) {
-        this.chatClient.onQuestion(content => { 
-            this.addLeftMessage(content);
+        const addTypingThenMessage = param => {
+            this.props.addTypingMessage();
+            setTimeout(() => {
+                this.addLeftMessage(param);
+            }, 500);
+        };
+
+        const throttledAddTypingThenMessage = _.throttle(
+            addTypingThenMessage,
+            1800,
+            {}
+        );
+
+        this.chatClient.onQuestion(content => {
+            throttledAddTypingThenMessage(content);
         });
+        this.chatClient.onTyping(() => {});
         this.chatClient.startChat({ latitude, longitude });
     }
 
@@ -226,6 +241,11 @@ class ChatAnimation extends Component {
                     }}
                 >
                     {this.props.messages.map(this.renderMessage)}
+                    {this.props.typing && this.renderMessage({
+                        key: 'typing',
+                        text: '...',
+                        user: 'left',
+                    })}
                     <View style={{ height: 40 }}>
                         {this.props.replyOptions.map(
                             this.renderReplyOptionAsRightMessage
@@ -255,11 +275,16 @@ const addReplyMessageAction = reply => ({
     messages: [ reply ],
 });
 
+const addTypingMessageAction = () => ({
+    type: 'typingAction',
+});
+
 
 const mapStateToProps = (state, props) => ({
     ...(state.animation[props.animationId] || {}),
     messages: state.messages.messages,
     replyOptions: state.messages.replyOptions,
+    typing: state.messages.typing,
 });
 
 const mapDispatchToProps = {
@@ -267,6 +292,7 @@ const mapDispatchToProps = {
     updateScrollData: updateScrollAction,
     addBotMessage : addBotMessageAction,
     addReplyMessage: addReplyMessageAction,
+    addTypingMessage: addTypingMessageAction,
 };
 
 const ChatAnimationRedux = connect(mapStateToProps, mapDispatchToProps)(ChatAnimation);

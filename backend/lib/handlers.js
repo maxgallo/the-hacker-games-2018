@@ -33,6 +33,9 @@ const sendTpyingEvent = (socket, event, logger) => {
   logger.info(`[${event}] the bot is typing ......`);
 };
 
+/**
+ *
+ */
 const fetchQuestionsChain = async ({ brain, config, socket, params, logger }) => {
   const questions = await brain.getQuestion(params);
   let index = 0;
