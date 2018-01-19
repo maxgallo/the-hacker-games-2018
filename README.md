@@ -44,7 +44,7 @@ npm install
 npm start
 ```
 
-## Deploy
+### Deployment
 We are using [now.sh](https://now.sh) to deploy our backend.
 
 Deploy Instruction
