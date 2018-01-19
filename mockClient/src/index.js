@@ -1,5 +1,5 @@
 import ChatClient from './services/ChatClient';
-import * as Events from './constants/Events';
+import * as Events from '../../shared/constants/Events';
 
 const answersArea = document.querySelector('#answers');
 const questionArea = document.querySelector('#question');
@@ -8,7 +8,7 @@ answersArea.addEventListener('click', handleAnswerClick);
 
 // Create new chat client with socket URL
 
-const chatClient = new ChatClient('https://fbef2b12.ngrok.io');
+const chatClient = new ChatClient('https://a0e5f27d.ngrok.io');
 
 function renderAnswerButtons(answers = []) {
     answersArea.innerHTML = answers.reduce((html, answer) => html + `<button data-id="${answer._id}">${answer.message}</button>`, '');
