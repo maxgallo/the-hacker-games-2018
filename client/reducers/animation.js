@@ -12,6 +12,7 @@ const animationReducer = (
             const stateForAnimationId = state[action.animationId] || {};
             const stateForAnimationType =
                 stateForAnimationId[action.animationType] || {};
+
             return {
                 ...state,
                 [action.animationId]: {

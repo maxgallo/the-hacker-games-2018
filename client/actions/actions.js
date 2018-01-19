@@ -13,7 +13,6 @@ const updateAction = (
     animationType
 });
 
-
 function addBotMessageAction (
     message,
     replyOptions
@@ -23,7 +22,7 @@ function addBotMessageAction (
         messages: [],
         replyOptions: replyOptions.map(option => ({
             id: option._id,
-            text: option.message.slice(0, 5),
+            text: option.message,
         })),
     };
 

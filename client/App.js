@@ -10,6 +10,7 @@ import reducers from './reducers/reducers';
 const reducer = combineReducers(reducers);
 const store = createStore(reducer);
 
+
 export default class App extends Component {
     // static navigationOptions = {
     //     header: null

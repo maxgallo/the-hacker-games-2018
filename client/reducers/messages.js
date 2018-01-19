@@ -10,6 +10,8 @@ const messagesReducer = (
 ) => {
     switch(action.type) {
         case 'addBotMessageAction': {
+            // console.log('add bot message action', state.messages);
+            // console.log('--------', action.messages);
             return {
                 ...state,
                 messages: [
@@ -18,6 +20,16 @@ const messagesReducer = (
                 ],
                 replyOptions: action.replyOptions,
             };
+        }
+        case 'addReplyMessage': {
+            return  {
+                ...state,
+                messages: [
+                    ...state.messages,
+                    ...action.messages,
+                ],
+            }
+
         }
         default:
             return state;

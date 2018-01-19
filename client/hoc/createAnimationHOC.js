@@ -40,26 +40,26 @@ const createAnimationHOC = Comp => {
             if (this.props.animationType === 'start') {
                 this.style.opacity.setValue(0);
             } else if (this.props.animationType === 'middle') {
-                this.style.opacity.setValue(1);
-                this.style.top.setValue(this.props.start.y);
-                this.style.left.setValue(this.props.start.x);
-                this.animation = Animated.sequence([
-                    Animated.parallel([
-                        Animated.timing(this.style.top, {
-                            toValue: this.props.end.y,
-                            duration: 500
-                        }),
-                        Animated.timing(this.style.left, {
-                            toValue: this.props.end.x,
-                            duration: 500
-                        })
-                    ]),
-                    Animated.timing(this.style.opacity, {
-                        toValue: 0,
-                        duration: 0
-                    })
-                ]);
-                this.animation.start();
+                // this.style.opacity.setValue(1);
+                // this.style.top.setValue(this.props.start.y);
+                // this.style.left.setValue(this.props.start.x);
+                // this.animation = Animated.sequence([
+                    // Animated.parallel([
+                        // Animated.timing(this.style.top, {
+                            // toValue: this.props.end.y,
+                            // duration: 500
+                        // }),
+                        // Animated.timing(this.style.left, {
+                            // toValue: this.props.end.x,
+                            // duration: 500
+                        // })
+                    // ]),
+                    // Animated.timing(this.style.opacity, {
+                        // toValue: 0,
+                        // duration: 0
+                    // })
+                // ]);
+                // this.animation.start();
             } else if (this.props.animationType === 'end') {
                 this.animation = Animated.sequence([
                     Animated.delay(500),

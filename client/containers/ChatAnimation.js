@@ -24,11 +24,8 @@ const AnimatedMessageRight = createAnimationHOC(MessageRight);
 const AnimatedButton = createAnimationHOC(Button);
 
 class ChatAnimation extends Component {
-    state = {
-        // messages: [],
-        // replyOptions: []
-    };
-    
+    state = {};
+
     constructor(props) {
         super(props);
         this.replyOptionStyle = [
@@ -37,7 +34,7 @@ class ChatAnimation extends Component {
             { bottom: new Animated.Value(-100) }
         ];
         this.scrollY = new Animated.Value(0);
-        this.chatClient = new ChatClient('https://53a9a05c.ngrok.io');
+        this.chatClient = new ChatClient('https://the-hacker-games-backend.now.sh');
     }
 
     componentDidMount() {
@@ -74,14 +71,15 @@ class ChatAnimation extends Component {
                 errorMessage: "Permission to access location was denied"
             });
         }
-    
+
         let location = await Location.getCurrentPositionAsync({});
-        
+
         const { latitude, longitude } = location.coords;
         this.initChat(latitude, longitude);
     }
 
     addLeftMessage({ message, answers, _id }) {
+        console.log('add left message');
         setTimeout(() => {
             const botMessage = {
                 user: 'left',
@@ -101,6 +99,10 @@ class ChatAnimation extends Component {
         this.setState({ selectedReply: replyOption });
         this.hideReplyOptions();
         this.chatClient.selectAnswer(replyOption.id);
+        setTimeout(() => {
+            this.props.addReplyMessage(replyOption);
+            this.addMockLeftMessage();
+        }, 500);
     };
 
     showReplyOptions = () => {
@@ -115,7 +117,7 @@ class ChatAnimation extends Component {
     };
 
     hideReplyOptions = () => {
-        console.log('HIDE', this.props.replyOptions);
+        //console.log('HIDE', this.props.replyOptions);
         Animated.stagger(
             100,
             this.props.replyOptions.map((replyOption, i) =>
@@ -136,7 +138,12 @@ class ChatAnimation extends Component {
                 />
             );
         }
-        return <MessageRight key={message.id} text={message.text} />;
+        return (
+            <MessageRight
+                key={message.id}
+                text={message.text}
+            />
+        );
     };
 
     handleMessageLeftAnimationEnd = () => {
@@ -157,6 +164,8 @@ class ChatAnimation extends Component {
     };
 
     renderReplyOptionAsRightMessage = replyOption => {
+        return null;
+        /*
         return (
             <AnimatedMessageRight
                 key={replyOption.id}
@@ -164,15 +173,34 @@ class ChatAnimation extends Component {
                 animationType="end"
                 text={replyOption.text}
                 style={{ position: 'absolute' }}
-                // onAnimationEnd={this.handleReplayOptionAnimationEnd}
+                onAnimationEnd={this.handleReplayOptionAnimationEnd}
             />
         );
+        */
     };
 
-    // handleReplayOptionAnimationEnd = () => {
-        // this.addLeftMessage(this.state.selectedReply);
-    // };
+    addMockLeftMessage = () => {
+        this.addLeftMessage({
+            _id: randomNumber(0, 0.999999),
+            message: 'what time is it?',
+            answers: [
+                {
+                    message: 'yeah',
+                    _id: randomNumber(0, 0.999999),
+                },
+                {
+                    message: 'nope',
+                    _id: randomNumber(0, 0.999999),
+                },
+                {
+                    message: 'maybe',
+                    _id: randomNumber(0, 0.999999),
+                },
+            ],
+        });
+    }
 
+    handleReplayOptionAnimationEnd = () => {};
 
     render() {
         return (
@@ -197,13 +225,6 @@ class ChatAnimation extends Component {
                 <View style={styles.buttons}>
                     {this.props.replyOptions.map(this.renderReplyOption)}
                 </View>
-                {this.state.selectedReply && (
-                    <AnimatedMessageRight
-                        animationId={this.state.selectedReply.id}
-                        animationType="middle"
-                        text={this.state.selectedReply.text}
-                    />
-                )}
             </View>
         );
     }
@@ -218,8 +239,11 @@ const updateScrollAction = height => ({
     height
 });
 
-// const mapStateToProps = (state, props) =>
-// state.animation[props.animationId] || {};
+const addReplyMessageAction = reply => ({
+    type: 'addReplyMessage',
+    messages: [ reply ],
+});
+
 
 const mapStateToProps = (state, props) => ({
     ...(state.animation[props.animationId] || {}),
@@ -230,7 +254,8 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
     animate: animateAction,
     updateScrollData: updateScrollAction,
-    addBotMessage : addBotMessageAction
+    addBotMessage : addBotMessageAction,
+    addReplyMessage: addReplyMessageAction,
 };
 
 const ChatAnimationRedux = connect(mapStateToProps, mapDispatchToProps)(ChatAnimation);
