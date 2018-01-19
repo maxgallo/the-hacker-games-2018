@@ -32,27 +32,27 @@ class PersonChat extends React.Component {
             onSuccess: currentUser => {
                 console.log("Successful connection");
                 this.currentUser = currentUser;
-                
-                const roomToSubscribeTo = currentUser.rooms[0];
-                
-                if (roomToSubscribeTo) {
-                    this.room = roomToSubscribeTo;
-                    console.log("Going to subscribe to", roomToSubscribeTo);
-                    // this.currentUser.subscribeToRoom(this.room, {
-                    //     newMessage: this.handleNewMessage.bind(this)
-                    // });     
-                } else {
-                    this.currentUser.createRoom(
-                        { name: "PANDA" },
-                        (room) => {
-                          console.log(`Created public room called ${room.name}`);
-                        },
-                        (error) => {
-                          console.log(`Error creating room ${error}`);
+                this.room = this.currentUser.rooms[1];
+                this.currentUser.subscribeToRoom(this.room, {
+                    newMessage: (message) => {
+                        const isMe = message.sender.id === this.currentUser.id;
+                        if (isMe) {
+                            return;
                         }
-                    );
-                    this.room = currentUser.rooms[0];
-                }
+                        const newMessage = {
+                            _id: message.id,
+                            text: message.text,
+                            createdAt: new Date(),
+                            user: {
+                                _id: message.sender.id,
+                                name: message.sender.name,
+                                avatar: message.sender.avatarURL,
+                            }
+                        }
+                        const updatedMessages = [newMessage, ...this.state.messages];
+                        this.setState({ messages: updatedMessages });
+                    }
+                }, 0);     
                            
             },
             onError: error => {
@@ -63,25 +63,8 @@ class PersonChat extends React.Component {
 
     componentWillMount() {
         this.setState({
-            messages: [
-                {
-                    _id: 1,
-                    text: "Hello developer",
-                    createdAt: new Date(),
-                    user: {
-                        _id: 2,
-                        name: "React Native",
-                        avatar:
-                            "http://images.mentalfloss.com/sites/default/files/jon_snow_hed.jpg?resize=1100x740"
-                    }
-                }
-            ]
+            messages: []
         });
-    }
-
-    handleNewMessage(message) {
-        const updatedMessages = [...this.state.messages, message];
-        this.setState({ messages: updatedMessages });
     }
 
     onSend(messages = []) {
@@ -116,3 +99,26 @@ class PersonChat extends React.Component {
 }
 
 export default PersonChat;
+
+  // const roomToSubscribeTo = currentUser.rooms[0];
+                
+                // if (roomToSubscribeTo) {
+                //     this.room = roomToSubscribeTo;
+                //     console.log("Going to subscribe to", roomToSubscribeTo);
+ 
+                // } else {
+                    // this.currentUser.createRoom(
+                    //     { 
+                    //         name: "KOALA",
+                    //         addUserIds: ['patrick'],
+                    //     },
+                    //     (room) => {
+                    //         this.room = currentUser.rooms[1];
+                    //         console.log(`Created public room called ${room.name}`);
+                    //     },
+                    //     (error) => {
+                    //       console.log(`Error creating room ${error}`);
+                    //     }
+                    // );
+                    // console.log(currentUser.rooms);
+                // }
